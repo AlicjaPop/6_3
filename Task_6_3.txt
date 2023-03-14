@@ -1,0 +1,27 @@
+Nie jestem pewna, czy zrozumiałam zadanie - w poleceniu było napisane, aby podać skrypt, zakładam, że SQL :) jeśli nie to jest jeszcze kod w pliku .py
+
+-- Tworzenie tabeli "stations"
+CREATE TABLE stations (
+id INTEGER PRIMARY KEY,
+station TEXT,
+latitude REAL,
+longitude REAL,
+elevation REAL,
+name TEXT,
+country TEXT,
+state TEXT
+);
+-- Tworzenie tabeli "measures"
+CREATE TABLE measures (
+id_measure INTEGER PRIMARY KEY,
+station TEXT NOT NULL REFERENCES stations(station),
+date TEXT,
+precip REAL,
+tobs INTEGER
+);
+
+
+-- Tworzenie tabeli ze wszystkimi danymi
+CREATE TABLE all_data AS
+SELECT measures.*, stations.latitude, stations.longitude, stations.elevation, stations.name, stations.country, stations.state
+FROM measures JOIN stations ON measures.station = stations.station;
