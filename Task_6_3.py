@@ -49,6 +49,14 @@ with open(measures_records, 'r') as f:
     records = [dict(zip(headers, row)) for row in csv_reader]
     conn.execute(measures.insert(), records)
 
+#Tables combination
+conn.execute("""
+CREATE TABLE all_data AS 
+SELECT measures.*, stations.latitude, stations.longitude, stations.elevation, stations.name, stations.country, stations.state 
+FROM measures 
+JOIN stations ON measures.station = stations.station
+""")
+
 # Example from the excercise
 print(conn.execute("SELECT * FROM stations LIMIT 5").fetchall())
 
